@@ -1,6 +1,6 @@
 # Install ubuntu 18 distro on windows 10 VM
 # Download ubuntu 18 distro for wsl
-# Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-1804 -OutFile Ubuntu.appx -UseBasicParsing -Verbose
+Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-1804 -OutFile Ubuntu.appx -UseBasicParsing -Verbose
 # Installing ubuntu distro for wsl. Prequisite of the below step is WSL should be enabled
 Add-AppxPackage .\Ubuntu.appx
 
