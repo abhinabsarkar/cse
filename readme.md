@@ -1,4 +1,4 @@
-# Create custom image of a Windows VM
+# Create custom VM image using Custom Script Extension
 
 ## 1. Create a VM & customize using Custom Script Extension
 Create a VM & customize it with [custom extensions](https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/custom-script-windows) using Azure CLI bash script. 
