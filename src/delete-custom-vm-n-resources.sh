@@ -4,7 +4,7 @@ set -e
 # Delete the VM first before deleting any of the other resource as other resources have dependency on it 
 # & they cannot be deleted till the VM is deleted
 echo "Delete the VM"
-# az vm delete --name VM-Win10-Custom --resource-group rg-ea-dev --yes --verbose
+az vm delete --name VM-Win10-Custom --resource-group rg-ea-dev --yes --verbose
 
 # Delete all the resources associated with the VM. The associated resources were tagged while creating the vm
 echo "Delete the resources associated with the VM"
