@@ -34,8 +34,8 @@ Write-Output "Git client installation completed"
 
 # Install vs code
 Write-Output "Installing VS Code"
-$vscodeWindowsUrl = "https://aka.ms/win32-x64-user-stable"
-$vscodeDownloadPath = $softwareDirectory + "\VSCodeUserSetup-x64-1.45.0.exe"
+$vscodeWindowsUrl = "https://go.microsoft.com/fwlink/?Linkid=852157"
+$vscodeDownloadPath = $softwareDirectory + "\VSCodeSetup-x64-1.45.0.exe"
 $wc.DownloadFile($vscodeWindowsUrl, $vscodeDownloadPath)
 Start-Process -FilePath $vscodeDownloadPath -ArgumentList '/VERYSILENT /MERGETASKS=!runcode' -Wait -Verbose
 # Remove-Item  $vscodeDownloadPath -Verbose
@@ -51,14 +51,16 @@ Start-Process msiexec.exe -ArgumentList $argument -Wait -Verbose
 # Remove-Item $softwareDirectory + ".\AzureCLI.msi" -Verbose
 Write-Output "Azure cli install completed"
 
-# Install google chrome
-Write-Output "Installing chrome browser"
-$chromeUrl = "http://dl.google.com/chrome/install/375.126/chrome_installer.exe"
-$chromeDownloadPath = $softwareDirectory + "\chrome_installer.exe"
-$wc.DownloadFile($chromeUrl, $chromeDownloadPath)
-Start-Process -FilePath $vscodeDownloadPath -ArgumentList '/silent /install' -Wait -Verbose
-# Remove-Item  $chromeDownloadPath -Verbose
-Write-Output "Chrome browser install completed"
+# Chrome has to be installed at user level to be made available to all users
+
+# # Install google chrome
+# Write-Output "Installing chrome browser"
+# $chromeUrl = "http://dl.google.com/chrome/install/375.126/chrome_installer.exe"
+# $chromeDownloadPath = $softwareDirectory + "\chrome_installer.exe"
+# $wc.DownloadFile($chromeUrl, $chromeDownloadPath)
+# Start-Process -FilePath $vscodeDownloadPath -ArgumentList '/silent /install' -Wait -Verbose
+# # Remove-Item  $chromeDownloadPath -Verbose
+# Write-Output "Chrome browser install completed"
 
 # Install docker desktop
 Write-Output "Installing docker desktop"
