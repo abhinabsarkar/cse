@@ -2,7 +2,7 @@ Write-Output "Initiating script"
 
 # Choose a directory path for installing softwares
 $softwareDirectory = "C:\abhinab\softwares"
-# Create the directory
+# Create the directory. Use the force switch to create directory even if exists
 New-Item -Path $softwareDirectory -ItemType Directory -Force
 
 # Create a web client
@@ -23,14 +23,14 @@ Start-Process -FilePath $gitDownloadPath -ArgumentList '/VERYSILENT /COMPONENTS=
 # Remove-Item  $gitDownloadPath -Verbose
 Write-Output "Git client installation completed"
 
-# Add kubectl to the environment path
-Write-Output "Adding the kubectl path to the environment variable"
-Clear-Host
-$AddedLocation = $softwareDirectory
-$Reg = "Registry::HKLM\System\CurrentControlSet\Control\Session Manager\Environment"
-$OldPath = (Get-ItemProperty -Path "$Reg" -Name PATH).Path
-$NewPath= $OldPath + ’;’ + $AddedLocation
-Set-ItemProperty -Path "$Reg" -Name PATH –Value $NewPath
+# # Add kubectl to the environment path
+# Write-Output "Adding the kubectl path to the environment variable"
+# Clear-Host
+# $AddedLocation = $softwareDirectory
+# $Reg = "Registry::HKLM\System\CurrentControlSet\Control\Session Manager\Environment"
+# $OldPath = (Get-ItemProperty -Path "$Reg" -Name PATH).Path
+# $NewPath= $OldPath + ’;’ + $AddedLocation
+# Set-ItemProperty -Path "$Reg" -Name PATH –Value $NewPath
 
 # Install vs code
 Write-Output "Installing VS Code"
