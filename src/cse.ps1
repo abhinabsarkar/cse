@@ -77,11 +77,14 @@ $wc.DownloadFile($wslUbuntuDistroUrl, $softwareDirectory + "\Ubuntu.appx")
 Write-Output "Ubuntu distro downloaded"
 
 # Installing the wsl distro is deferred as it will not allow to create a generalized image using sysprep
+Write-Output "Installing the wsl distro is deferred as it will not allow to create a generalized image using sysprep"
+Write-Output "To install wsl, navigate to folder & run the powershell command, 'Add-AppxPackage .\Ubuntu.appx'"
+Write-Output  "Refer the link for details on wsl install instructions - https://docs.microsoft.com/en-us/windows/wsl/install-manual"
 Write-Output "Install scripts completed"
 
-# Enable wsl feature
+# Enable wsl feature. Suppress Restart as it causes the powershell to wait
 Write-Output "Enable wsl feature"
-Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -Verbose
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart -Verbose
 Write-Output "wsl enabled"
 
 # Restart the VM for install like docker & wsl to take affect
