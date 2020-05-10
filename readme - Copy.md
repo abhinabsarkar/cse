@@ -36,7 +36,7 @@ The Custom Script Extension configuration specifies things like script location 
 In this example, the custom extension will run scripts (powershell) from a file in github.
 
 ```bash
-# Use Custom Script extension to install softwares & enable WSL feature
+# Use Custom Script extension to enable WSL feature
 # When creating windows VM, used publisher as "Microsoft.Compute"
 # For the Name of the extension - az vm extension image list
 # Github file location should point ot the raw file
@@ -48,32 +48,32 @@ az vm extension set \
   --name CustomScriptExtension \
   --vm-name $vmName \
   --resource-group $rgName \
-  --settings '{"commandToExecute": "powershell -ExecutionPolicy Unrestricted -File cse.ps1 > C:\install-software-logs.txt 2>&1", "fileUris": [" https://raw.githubusercontent.com/abhinabsarkar/cse/master/src/cse.ps1"]}' \
+  --settings '{"commandToExecute": "powershell -ExecutionPolicy Unrestricted -File enable-wsl.ps1 > C:\enable-wsl-logs.txt 2>&1", "fileUris": ["https://raw.githubusercontent.com/abhinabsarkar/cse/master/src/enable-wsl.ps1"]}' \
   --debug
-```
-> WSL requires a VM reboot & powershell can't restart it from the next step (Ideally DSC should be used). Hence, enabling the wsl feature at the end and restarting the VM. 
 
-## Troubleshooting steps for CustomExtensionScript
-Sometimes the extension doesn't run. Remove the extension & then run the above command
-```bash
+# WSL requires a VM reboot & powershell can't restart it from the next step (Ideall DSC should be used)
+# Hence, removing the custom script extension & addng it again
 az vm extension delete\
   --name CustomScriptExtension \
   --vm-name $vmName \
   --resource-group $rgName \
   --verbose
-```
-The logs can be found at the location
-```cmd
-C:\WindowsAzure\Logs\WaAppAgent.log
-``` 
-The plugins logs can be found at the location
-```cmd
-C:\WindowsAzure\Logs\Plugins
-```
-The plugins downloaded can be found at the location
-```
-# This is the location where the scripts get downloaded
-C:\Packages\Plugins
+
+# Use Custom Script extension to install softwares on the VM
+# When creating windows VM, used publisher as "Microsoft.Compute"
+# For the Name of the extension - az vm extension image list
+# Github file location should point ot the raw file
+# 2>&1	These parameters cause this command to first redirect stdout (Standard Output Stream) to the output file, 
+#       and then redirects stderr (Standard Error Stream) there as well.
+# Replace username & password value
+az vm extension set \
+  --publisher Microsoft.Compute \
+  --name CustomScriptExtension \
+  --vm-name $vmName \
+  --resource-group $rgName \
+  --protected-settings '{"username":"******", "password":"******"}' \
+  --settings '{"commandToExecute": "powershell -ExecutionPolicy Unrestricted -File install-software.ps1 > C:\install-software-logs.txt 2>&1", "fileUris": ["https://raw.githubusercontent.com/abhinabsarkar/cse/master/src/install-software.ps1"]}' \
+  --debug
 ```
 
 ## De-provision the VM

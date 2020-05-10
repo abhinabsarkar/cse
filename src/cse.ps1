@@ -63,14 +63,16 @@ Write-Output "Chrome browser install completed"
 # Install docker desktop
 Write-Output "Installing docker desktop"
 $dockerDesktopUrl = "https://download.docker.com/win/stable/Docker%20Desktop%20Installer.exe"
-$dockerDesktopDownloadPath = $softwareDirectory + "Docker Desktop Installer.exe"
+$dockerDesktopDownloadPath = $softwareDirectory + "\Docker Desktop Installer.exe"
 $wc.DownloadFile($dockerDesktopUrl, $dockerDesktopDownloadPath)
 Start-Process -FilePath $dockerDesktopDownloadPath -ArgumentList 'install --quiet' -Wait -Verbose
 Write-Output "Docker desktop install completed"
 
 # Download ubuntu 18 distro for wsl
+Write-Output "Download ubuntu distro for wsl"
 $wslUbuntuDistroUrl = "https://aka.ms/wsl-ubuntu-1804"
 $wc.DownloadFile($wslUbuntuDistroUrl, $softwareDirectory + "\Ubuntu.appx")
+Write-Output "Ubuntu distro downloaded"
 
 # Installing the wsl distro is deferred as it will not allow to create a generalized image using sysprep
 Write-Output "Install scripts completed"
@@ -78,7 +80,8 @@ Write-Output "Install scripts completed"
 # Enable wsl feature
 Write-Output "Enable wsl feature"
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -Verbose
-# Restart the VM if required
-if ($results.RestartNeeded -eq $true) {
-  Restart-Computer -Force
-}
+Write-Output "wsl enabled"
+
+# Restart the VM for install like docker & wsl to take affect
+Write-Output "Restart the local VM"
+Restart-Computer
