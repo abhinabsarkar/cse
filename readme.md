@@ -118,10 +118,10 @@ az image create -g $rgName -n image-win10-custom-20200510 --source $vmName \
 az vm delete -g $rgName -n $vmName --yes --no-wait --verbose
 ```
 
-## Create VMs from the image
+## Create VMs from the custom image
 Creating a VM from a custom image is similar to creating a VM using a Marketplace image. In this case, the image is placed in the same resource group. The image can also be placed in [Shared Image Gallery](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/shared-image-galleries#generalized-and-specialized-images). A Shared Image Gallery simplifies custom image sharing across your organization. Custom images are like marketplace images, but you create them yourself. Custom images can be used to bootstrap configurations such as preloading applications, application configurations, and other OS configurations.
 
-The steps here are not using the Shared Image Gallery, rather the image stored in the Resource Group.
+The steps here are not using the Shared Image Gallery, rather the image stored in the Resource Group is used.
 ```bash
 az vm create -g $rgName -n VM-Win10-Custom --image image-win10-custom-20200510 \
   --admin-username $AdminUser --admin-password $AdminPassword \
