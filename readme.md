@@ -121,13 +121,35 @@ az vm delete -g $rgName -n $vmName --yes --no-wait --verbose
 ## Create VMs from the custom image
 Creating a VM from a custom image is similar to creating a VM using a Marketplace image. In this case, the image is placed in the same resource group. The image can also be placed in [Shared Image Gallery](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/shared-image-galleries#generalized-and-specialized-images). A Shared Image Gallery simplifies custom image sharing across your organization. Custom images are like marketplace images, but you create them yourself. Custom images can be used to bootstrap configurations such as preloading applications, application configurations, and other OS configurations.
 
+### Create VM from the custom image within same resource group
 The steps here are not using the Shared Image Gallery, rather the image stored in the Resource Group is used.
+> The VM is created in the same resource group where the image resides, & hence the image can be used by referring the name. If you want to create a VM on a different resource group, then get the resource id of the image or publish it in the Shared Image Gallery.
 ```bash
 az vm create -g $rgName -n VM-Win10-Custom --image image-win10-custom-20200510 \
   --admin-username $AdminUser --admin-password $AdminPassword \
   --public-ip-address-allocation static \
   --tag Identifier=VM-Win10-Custom-Image \
   --verbose
+```
+
+### Create VM from the custom image in a different resource group
+```bash
+# Get the image id
+imageId=$(az resource list -g $rgName -o table --query "[].id" -o tsv)
+# Create new resource group
+az group create -g rg-abs-win10Custom -l eastus2
+# Create the VM using custom image in another resource group
+az vm create -g rg-abs-win10Custom -n VM-Win10-Custom \ 
+  --size Standard_D4_v3 --image $imageId \
+  --admin-username $AdminUser --admin-password $AdminPassword \
+  --public-ip-address-allocation static \
+  --tag Identifier=VM-Win10-Custom-Image \
+  --verbose
+# Since the running VM will cost money, keep it de-allocated until you are using it.
+# De-allocate the VM to reduce cost. Still charged for the OS disk storage & static public ip 
+az vm deallocate -g rg-abs-win10Custom -n VM-Win10-Custom --no-wait --verbose
+# Get the power state of the VM
+az vm list -g rg-abs-win10Custom -d -o table
 ```
 
 ## Clean up resources in the resource group
