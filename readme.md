@@ -21,9 +21,11 @@ az group create -g $rgName -l eastus2
 windows10=$(az vm image list --publisher MicrosoftWindowsDesktop --offer Windows-10 --sku 19h2-pro --all --query "[0].urn" -o tsv)
 
 # Create VM
+# Size Standard_D4s_v3 is required for nested virtualization when using Canada Central location. Refer https://azure.microsoft.com/en-gb/blog/nested-virtualization-in-azure/
+# Refer for the complete list of VMs that support nested virtualization. Refer https://docs.microsoft.com/en-us/azure/virtual-machines/acu
 az vm create \
     --resource-group $rgName --name $vmName \
-    --image $windows10 --size Standard_D4_v3 --location eastus2 \
+    --image $windows10 --size Standard_D4s_v3 --location eastus2 \
     --admin-username $AdminUser --admin-password $AdminPassword \
     --tags Identifier=VM-Win10-Custom \
     --public-ip-address-allocation static \
